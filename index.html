@@ -11,16 +11,26 @@
     <link rel="icon" type="image/x-icon" class="favicon" href="https://twemoji.maxcdn.com/2/svg/1f637.svg">
     <title>Posso sair de casa?</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>🦠
+</head>
 <body>
     <div title="Geolocation" id="geolocation" class="mt-5 pt-2 pl-3 bg-info text-white">
         <h5>🗺 Autorize para pegar sua geolocalização.</h5>
     </div>
 
-<div title="Corpo" id="corpo">
-    Nada!
-</div>
+    <div id="local" class="m-2 shadow p-3 bg-white rounded text-center">
+    </div>
 
+    <div title="🦠Obviamente que não!" id="nao" class="m-2 shadow p-3 bg-white rounded text-center">
+        <h1><strong>Não!</strong></h1>    
+        <img id="gif" src="https://media1.giphy.com/media/3o752g7sZytAjxS71C/giphy.gif?cid=790b7611accd081758ec5cfe2a9040b796f4ddc0bf64f563&rid=giphy.gif" alt="NÃO!" style="max-width: 300px;">
+        
+        <p class="text-secondary">Não importa onde vocẽ esteja, não saia de casa sem necessidade.</p>
+        <hr>
+        <div title="#FICAEMCASA" class="ml-5 mr-5">
+            <p class="text-justify">#FICAEMCASA</p>
+        </div>
+    </div>
+    
     <script>
         getLocation()
         function getLocation() {
@@ -44,35 +54,35 @@
             $('#geolocation').addClass('d-none')
             $('#profile').addClass('mt-5')
             $.ajax(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}`, {dataType: 'json'}).done(json => {
-                $('#corpo').html(json)
-                <!-- $(xml).find('cidade')
-                const cid = xml.find('nome').text()
-                const uf = xml.find('uf').text()
-                $('#geolocation').html(`Você está em ${cid} - ${uf}`)
-                $('#geolocation').removeClass('d-none') -->
+                $('#local').html(json)
+                // $(xml).find('cidade')
+                // const cid = xml.find('nome').text()
+                // const uf = xml.find('uf').text()
+                // $('#local').html(`Você está em ${cid} - ${uf}`)
+                // $('#geolocation').removeClass('d-none')
             })
         }
-        
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                $('#geolocation').text('Geolocalização rejeitada.')
-                removeGeo()
-                break;
-                case error.POSITION_UNAVAILABLE:
-                $('#geolocation').text('Localização não disponível.')
-                removeGeo()
-                break;
-                case error.TIMEOUT:
-                $('#geolocation').text('Tempo limite atingido.')
-                removeGeo()
-                break;
-                case error.UNKNOWN_ERROR:
-                $('#geolocation').text('Algo deu errado.')
-                removeGeo()
-                break;
+            
+            function showError(error) {
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                    $('#geolocation').text('Geolocalização rejeitada.')
+                    removeGeo()
+                    break;
+                    case error.POSITION_UNAVAILABLE:
+                    $('#geolocation').text('Localização não disponível.')
+                    removeGeo()
+                    break;
+                    case error.TIMEOUT:
+                    $('#geolocation').text('Tempo limite atingido.')
+                    removeGeo()
+                    break;
+                    case error.UNKNOWN_ERROR:
+                    $('#geolocation').text('Algo deu errado.')
+                    removeGeo()
+                    break;
+                }
             }
-        }
-    </script>
-</body>
-</html>
+        </script>
+    </body>
+    </html>
