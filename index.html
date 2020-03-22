@@ -13,17 +13,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <div title="Geolocation" id="geolocation" class="mt-5 pt-2 pl-3 bg-info text-white">
+    <div title="Geolocalizaçao" id="geolocation" class="pl-3 bg-info text-white">
         <h5>🗺 Autorize para pegar sua geolocalização.</h5>
     </div>
 
-    <div id="local" class="m-2 shadow p-3 bg-white rounded text-center">
+    <div id="sair" class="m-2 shadow p-1 bg-white rounded text-center">
+        <h1>Posso sair de casa?</h1>
+        <h3>Hoje <span id="dia"></span>.</h3>
     </div>
 
-    <div title="🦠Obviamente que não!" id="nao" class="m-2 shadow p-3 bg-white rounded text-center">
-        <h1><strong>Não!</strong></h1>    
-        <img id="gif" src="https://media1.giphy.com/media/3o752g7sZytAjxS71C/giphy.gif?cid=790b7611accd081758ec5cfe2a9040b796f4ddc0bf64f563&rid=giphy.gif" alt="NÃO!" style="max-width: 300px;">
-        
+    <div id="local" class="bg-info text-white rounded text-center">
+    </div>
+
+    <div title="Procurando casos pertos de você..." id="loading" class="m-2 shadow p-2 bg-white rounded text-center">
+        <h2>Procurando casos suspeitos pertos de você...</h2>
+        <img src="https://i.pinimg.com/originals/e4/38/e1/e438e1b7a4f6bb5a48cd5971f538571a.gif" alt="Carregando...">
+    </div>
+
+    <div title="🦠 Obviamente que não!" id="nao" class="m-2 shadow p-2 bg-white rounded text-center">
+        <h1><strong>Obviamente que NÃO!</strong></h1>    
+        <img src="https://media1.giphy.com/media/3o752g7sZytAjxS71C/giphy.gif?cid=790b7611accd081758ec5cfe2a9040b796f4ddc0bf64f563&rid=giphy.gif" alt="NÃO!">
         <p class="text-secondary">Não importa onde vocẽ esteja, não saia de casa sem necessidade.</p>
         <hr>
         <div title="#FICAEMCASA" class="ml-5 mr-5">
@@ -31,7 +40,14 @@
         </div>
     </div>
     
+    <footer class="text-center text-secondary">Para mais informações sobre o Corona Vírus acesse <a title="corona" href="https://coronabr.com.br/">aqui</a>.</footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <script>
+        $('#nao').hide()
+        $('#loading').hide()
+        $('#dia').text(new Date().toLocaleString())
         getLocation()
         function getLocation() {
             if (navigator.geolocation) {
@@ -52,14 +68,14 @@
         
         function showPosition(position) {
             $('#geolocation').addClass('d-none')
-            $('#profile').addClass('mt-5')
-            $.ajax(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}`, {dataType: 'json'}).done(json => {
-                $('#local').html(json)
-                // $(xml).find('cidade')
-                // const cid = xml.find('nome').text()
-                // const uf = xml.find('uf').text()
-                // $('#local').html(`Você está em ${cid} - ${uf}`)
-                // $('#geolocation').removeClass('d-none')
+            $.getJSON(`https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`, json => {
+                $('#local').html(`<h3>Você está em <strong>${json["address"]["city"]} - ${json["address"]["state"]}</strong>.</h3>`)
+                $('#loading').show()
+                setTimeout(() => {
+                    $('#nao').show(1000)
+                    $('#loading').hide()
+                }, 3000)
+
             })
         }
             
