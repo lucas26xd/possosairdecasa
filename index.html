@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Lucas Santos">
+    <meta name="generator" content="VS Code">
+    <meta name="description" content="Posso sair de casa?">
+    <meta name="keywords" content="HTML, CSS, JS, Corona Vírus">
+    <link rel="icon" type="image/x-icon" class="favicon" href="https://twemoji.maxcdn.com/2/svg/1f637.svg">
+    <title>Posso sair de casa?</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>🦠
+<body>
+    <div title="Geolocation" id="geolocation" class="mt-5 pt-2 pl-3 bg-info text-white">
+        <h5>🗺 Autorize para pegar sua geolocalização.</h5>
+    </div>
+
+<div title="Corpo" id="corpo">
+    Nada!
+</div>
+
+    <script>
+        getLocation()
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError)
+            } else {
+                $('#geolocation').text('Seu navegador não suporta geolocalização.')
+                removeGeo()
+            }
+        }
+        
+        function removeGeo() {
+            $('#geolocation').removeClass('bg-info')
+            $('#geolocation').addClass('bg-danger')
+            setTimeout(() => {
+                $('#geolocation').remove()
+            }, 3000)
+        }
+        
+        function showPosition(position) {
+            $('#geolocation').addClass('d-none')
+            $('#profile').addClass('mt-5')
+            $.ajax(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}`, {dataType: 'json'}).done(json => {
+                $('#corpo').html(json)
+                <!-- $(xml).find('cidade')
+                const cid = xml.find('nome').text()
+                const uf = xml.find('uf').text()
+                $('#geolocation').html(`Você está em ${cid} - ${uf}`)
+                $('#geolocation').removeClass('d-none') -->
+            })
+        }
+        
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                $('#geolocation').text('Geolocalização rejeitada.')
+                removeGeo()
+                break;
+                case error.POSITION_UNAVAILABLE:
+                $('#geolocation').text('Localização não disponível.')
+                removeGeo()
+                break;
+                case error.TIMEOUT:
+                $('#geolocation').text('Tempo limite atingido.')
+                removeGeo()
+                break;
+                case error.UNKNOWN_ERROR:
+                $('#geolocation').text('Algo deu errado.')
+                removeGeo()
+                break;
+            }
+        }
+    </script>
+</body>
+</html>
