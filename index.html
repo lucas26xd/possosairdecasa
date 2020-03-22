@@ -16,24 +16,25 @@
     <div title="Geolocalizaçao" id="geolocation" class="pl-3 bg-info text-white">
         <h5>🗺 Autorize para pegar sua geolocalização.</h5>
     </div>
-
+    
     <div id="sair" class="m-2 shadow p-1 bg-white rounded text-center">
         <h1>Posso sair de casa?</h1>
         <h3>Hoje <span id="dia"></span>.</h3>
     </div>
-
+    
     <div id="local" class="bg-info text-white rounded text-center">
     </div>
-
+    
     <div title="Procurando casos pertos de você..." id="loading" class="m-2 shadow p-2 bg-white rounded text-center">
-        <h2>Procurando casos suspeitos pertos de você...</h2>
-        <img src="https://i.pinimg.com/originals/e4/38/e1/e438e1b7a4f6bb5a48cd5971f538571a.gif" alt="Carregando...">
+        <h2 id="find">Procurando casos suspeitos pertos de você...</h2>
+        <img src="https://i.pinimg.com/originals/e4/38/e1/e438e1b7a4f6bb5a48cd5971f538571a.gif" alt="Carregando..." class=".img-fluid" style="max-width: 100%; height: auto;">
     </div>
-
+    
     <div title="🦠 Obviamente que não!" id="nao" class="m-2 shadow p-2 bg-white rounded text-center">
         <h1><strong>Obviamente que NÃO!</strong></h1>    
-        <img src="https://media1.giphy.com/media/3o752g7sZytAjxS71C/giphy.gif?cid=790b7611accd081758ec5cfe2a9040b796f4ddc0bf64f563&rid=giphy.gif" alt="NÃO!">
+        <img src="https://media1.giphy.com/media/3o752g7sZytAjxS71C/giphy.gif?cid=790b7611accd081758ec5cfe2a9040b796f4ddc0bf64f563&rid=giphy.gif" alt="NÃO!" class=".img-fluid" style="max-width: 100%; height: auto;">
         <p class="text-secondary">Não importa onde vocẽ esteja, não saia de casa sem necessidade.</p>
+        <p class="text-secondary">Isso é extremamente importante para que o vírus não se prolifere cada vez mais.</p>
         <hr>
         <div title="#FICAEMCASA" class="ml-5 mr-5">
             <p class="text-justify">#FICAEMCASA</p>
@@ -41,12 +42,17 @@
     </div>
     
     <footer class="text-center text-secondary">Para mais informações sobre o Corona Vírus acesse <a title="corona" href="https://coronabr.com.br/">aqui</a>.</footer>
-
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+    
     <script>
         $('#nao').hide()
         $('#loading').hide()
+        
+        setTimeout(() => {
+            $('#find').text('Calculando necessidade de sair de casa...')
+        }, 4000)
+        
         $('#dia').text(new Date().toLocaleString())
         getLocation()
         function getLocation() {
@@ -74,31 +80,31 @@
                 setTimeout(() => {
                     $('#nao').show(1000)
                     $('#loading').hide()
-                }, 3000)
-
+                }, 4000)
+                
             })
         }
-            
-            function showError(error) {
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                    $('#geolocation').text('Geolocalização rejeitada.')
-                    removeGeo()
-                    break;
-                    case error.POSITION_UNAVAILABLE:
-                    $('#geolocation').text('Localização não disponível.')
-                    removeGeo()
-                    break;
-                    case error.TIMEOUT:
-                    $('#geolocation').text('Tempo limite atingido.')
-                    removeGeo()
-                    break;
-                    case error.UNKNOWN_ERROR:
-                    $('#geolocation').text('Algo deu errado.')
-                    removeGeo()
-                    break;
-                }
+        
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                $('#geolocation').text('Geolocalização rejeitada.')
+                removeGeo()
+                break;
+                case error.POSITION_UNAVAILABLE:
+                $('#geolocation').text('Localização não disponível.')
+                removeGeo()
+                break;
+                case error.TIMEOUT:
+                $('#geolocation').text('Tempo limite atingido.')
+                removeGeo()
+                break;
+                case error.UNKNOWN_ERROR:
+                $('#geolocation').text('Algo deu errado.')
+                removeGeo()
+                break;
             }
-        </script>
-    </body>
-    </html>
+        }
+    </script>
+</body>
+</html>
