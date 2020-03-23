@@ -22,7 +22,7 @@
         <h3>Hoje <span id="dia"></span>.</h3>
     </div>
     
-    <div id="local" class="bg-info text-white rounded text-center">
+    <div id="local" class="bg-success text-white rounded text-center">
     </div>
     
     <div title="Procurando casos pertos de você..." id="loading" class="m-2 shadow p-2 bg-white rounded text-center">
@@ -50,7 +50,7 @@
         $('#loading').hide()
         
         setTimeout(() => {
-            $('#find').text('Calculando necessidade de sair de casa...')
+            $('#find').text('Calculando qual a necessidade de sair de casa...')
         }, 4000)
         
         $('#dia').text(new Date().toLocaleString())
@@ -75,7 +75,12 @@
         function showPosition(position) {
             $('#geolocation').addClass('d-none')
             $.getJSON(`https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`, json => {
-                $('#local').html(`<h3>Você está em <strong>${json["address"]["city"]} - ${json["address"]["state"]}</strong>.</h3>`)
+                if(!!json.address.city && !!json.address.state)
+                    $('#local').html(`<h5>Você está em <strong>${json["address"]["city"]} - ${json["address"]["state"]}</strong>.</h5>`)
+                else if(!!json.address.state)
+                    $('#local').html(`<h5>Você está em <strong>${json["address"]["state"]}</strong>.</h5>`)
+                else
+                    $('#local').hide()
                 $('#loading').show()
                 setTimeout(() => {
                     $('#nao').show(1000)
