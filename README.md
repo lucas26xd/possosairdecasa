@@ -1,10 +1,11 @@
-# Site simples para deixar um recado simples nessa quarentena do coronavírus
+# Quarentine Project #2 - Joking
+## Site simples para deixar um recado simples nessa quarentena do coronavírus
 #FICAEMCASA
 
-## Acesso ao site
+### Acesso ao site
 > [https://lucas26xd.github.io/possosairdecasa/](https://lucas26xd.github.io/possosairdecasa/)
 
-## Utilizei
+### Utilizei
 
  - HTML
  - JS
